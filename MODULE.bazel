@@ -63,7 +63,13 @@ oci.pull(
     digest = "sha256:ebd8cc37d22551dce0957ba8e58f03b22a8448bbf844c8c9ded4feef883b36bc",
     image = "gcr.io/distroless/static",
 )
-use_repo(oci, "go_image_static")
+oci.pull(
+    name = "nodejs_arm64_image_base",
+    digest = "sha256:7c97c3b2fe8440e9b0371c549a79aaf677e66a778d7ed687269addd13dc9d7ed",
+    image = "index.docker.io/library/node"
+)
+# For each oci.pull call, repeat the "name" here to expose them as dependencies.
+use_repo(oci, "go_image_static", "nodejs_arm64_image_base")
 
 ###########################
 #    Node Dependencies    #

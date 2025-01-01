@@ -1357,7 +1357,7 @@
     "@@rules_oci+//oci:extensions.bzl%oci": {
       "general": {
         "bzlTransitiveDigest": "Dr/VF9WeB3X3Pjg6vWG7naj7AYYabUkZGoXV821x8vM=",
-        "usagesDigest": "skvdFK+oYUH4J4wt/Zh+ovsLlPk+AjFcleo5kUA+qFQ=",
+        "usagesDigest": "GOcWxJmOtKVwslmhRa0jRgeH7yuGVRE566S781JoF7c=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1383,6 +1383,30 @@
               "platforms": {},
               "platform": "@@rules_oci+//oci:go_image_static_single",
               "bzlmod_repository": "go_image_static",
+              "reproducible": true
+            }
+          },
+          "nodejs_arm64_image_base_single": {
+            "repoRuleId": "@@rules_oci+//oci/private:pull.bzl%oci_pull",
+            "attributes": {
+              "scheme": "https",
+              "registry": "index.docker.io",
+              "repository": "library/node",
+              "identifier": "sha256:7c97c3b2fe8440e9b0371c549a79aaf677e66a778d7ed687269addd13dc9d7ed",
+              "target_name": "nodejs_arm64_image_base_single"
+            }
+          },
+          "nodejs_arm64_image_base": {
+            "repoRuleId": "@@rules_oci+//oci/private:pull.bzl%oci_alias",
+            "attributes": {
+              "target_name": "nodejs_arm64_image_base",
+              "scheme": "https",
+              "registry": "index.docker.io",
+              "repository": "library/node",
+              "identifier": "sha256:7c97c3b2fe8440e9b0371c549a79aaf677e66a778d7ed687269addd13dc9d7ed",
+              "platforms": {},
+              "platform": "@@rules_oci+//oci:nodejs_arm64_image_base_single",
+              "bzlmod_repository": "nodejs_arm64_image_base",
               "reproducible": true
             }
           },

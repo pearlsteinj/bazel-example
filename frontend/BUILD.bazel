@@ -1,0 +1,52 @@
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_image_layer")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push")
+
+SERVING_DATA = [
+    ":app.js",
+    ":bin/www",
+    "//:node_modules",
+]
+
+js_binary(
+    name = "bin",
+    chdir = package_name(),
+    data = SERVING_DATA,
+    entry_point = ":bin/www",
+)
+
+platform(
+    name = "arm64_linux",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:arm64",
+    ],
+)
+
+js_image_layer(
+    name = "web_frontend_layer",
+    binary = ":bin",
+    platform = ":arm64_linux",
+    root = "/app",
+)
+
+oci_image(
+    name = "web_frontend_image",
+    exposed_ports = ["8080"],
+    entrypoint = ["node", "frontend/bin/www"],
+    base = "@nodejs_arm64_image_base",
+    tars = [
+        ":web_frontend_layer",
+    ],
+    workdir = select({
+        "@aspect_bazel_lib//lib:bzlmod": "/app/frontend/bin.runfiles/_main",
+        "//conditions:default": "/app/frontend/bin.runfiles/__main__",
+    }),
+)
+
+oci_push(
+    name = "web_frontend_container_push",
+    image = ":web_frontend_image",
+    remote_tags = ["latest"],
+    # TODO(you): Replace this with a repo of your choosing.
+    repository = "<id>.dkr.ecr.us-east-1.amazonaws.com/frontend",
+)
