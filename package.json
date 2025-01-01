@@ -1,0 +1,24 @@
+{
+  "name": "bazel_example",
+  "version": "0.0.1",
+  "dependencies": {
+    "@bazel/worker": "^5.8.1",
+    "@grpc/grpc-js": "^1.12.5",
+    "@grpc/proto-loader": "^0.7.13",
+    "autoprefixer": "^10.4.20",
+    "babylon": "^6.18.0",
+    "body-parser": "^1.20.3",
+    "clean-css": "^5.3.3",
+    "connect-redis": "7.1.0",
+    "cookie-parser": "~1.4.7",
+    "debug": "~2.6.9",
+    "express": "4.21.2",
+    "express-session": "^1.18.1",
+    "http-errors": "~1.6.3",
+    "minimist": "^1.2.8",
+    "morgan": "~1.9.1",
+    "multer": "1.4.5-lts.1",
+    "postcss": "^8.4.49",
+    "postcss-cli": "^10.1.0"
+  }
+}

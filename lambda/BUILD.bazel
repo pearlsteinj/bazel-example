@@ -1,0 +1,47 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+go_library(
+    name = "hello_world_lib",
+    srcs = ["hello_world.go"],
+    importpath = "github.com/pearlsteinj/bazel-example/lambda",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_aws_aws_lambda_go//events:go_default_library",
+        "@com_github_aws_aws_lambda_go//lambda:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "hello_world_function",
+    embed = [":hello_world_lib"],
+    goarch = "amd64",
+    goos = "linux",
+    pure = "on",
+    visibility = ["//visibility:public"],
+    x_defs = {
+        "main.GitCommit": "{STABLE_GIT_COMMIT}",
+        "main.Version": "{STABLE_VERSION}",
+    },
+)
+
+pkg_tar(
+    name = "tar",
+    srcs = [":hello_world_function"],
+)
+
+oci_image(
+    name = "hello_world_image",
+    base = "@go_image_static",
+    entrypoint = ["/hello_world_function"],
+    tars = [":tar"],
+)
+
+oci_push(
+    name = "hello_world_container_push",
+    image = ":hello_world_image",
+    remote_tags = ["latest"],
+    # TODO(you): Replace this with a repo of your choosing.
+    repository = "<id>.dkr.ecr.us-east-1.amazonaws.com/hello_world",
+)
