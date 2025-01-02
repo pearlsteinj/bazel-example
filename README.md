@@ -1,6 +1,6 @@
 # bazel-example
 
-![build](https://github.com/pearlsteinj/bazel-example/actions/workflows/build.yaml/badge.svg)
+![build](https://github.com/pearlsteinj/bazel-example/actions/workflows/build.yml/badge.svg)
 
 ## Overview
 
